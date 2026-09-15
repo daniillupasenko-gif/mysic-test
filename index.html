@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Мой музыкальный плеер</title>
+<title>You Are My World</title>
 
 <style>
 
@@ -16,180 +16,300 @@ body {
     margin: 0;
     min-height: 100vh;
 
-    background-image: url("background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
-    color: white;
     font-family: Arial, sans-serif;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: white;
 
-    position: relative;
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.60),
+            rgba(0,0,0,0.88)
+        ),
+        url("background.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 
-/* Затемнение заднего фона */
+/* =========================
+   ОСНОВНОЙ КОНТЕЙНЕР
+========================= */
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+.container {
+    width: 92%;
+    max-width: 800px;
 
-    background: rgba(0, 0, 0, 0.45);
-
-    z-index: -1;
+    margin: auto;
+    padding: 30px 0 50px;
 }
 
 
-/* ПЛЕЕР */
+/* =========================
+   ЗАГОЛОВОК
+========================= */
 
-.player {
-    width: 360px;
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-    background: rgba(24, 24, 24, 0.94);
+.header h1 {
+    margin: 0;
+
+    font-size: 32px;
+    letter-spacing: 2px;
+}
+
+.header p {
+    margin-top: 8px;
+
+    color: #aaa;
+    font-size: 14px;
+}
+
+
+/* =========================
+   СПИСОК ПЕСЕН
+========================= */
+
+.playlist {
+    background: rgba(20,20,20,0.85);
 
     border-radius: 18px;
 
-    padding: 22px;
+    padding: 10px;
 
     box-shadow:
-        0 15px 40px rgba(0,0,0,0.6);
-
-    backdrop-filter: blur(10px);
+        0 15px 40px rgba(0,0,0,0.5);
 }
 
 
-/* ОБЛОЖКА */
+.track {
+    display: flex;
 
-.cover {
-    width: 100%;
+    align-items: center;
 
-    aspect-ratio: 1 / 1;
+    gap: 15px;
+
+    padding: 12px;
 
     border-radius: 12px;
 
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.track:hover {
+    background: rgba(255,255,255,0.10);
+
+    transform: translateX(4px);
+}
+
+
+.track-number {
+    width: 30px;
+
+    text-align: center;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+
+.track img {
+    width: 55px;
+    height: 55px;
+
     object-fit: cover;
 
-    margin-bottom: 20px;
+    border-radius: 7px;
 }
 
 
-/* НАЗВАНИЕ */
+.track-info {
+    flex: 1;
+}
 
-.song-name {
-    font-size: 22px;
+
+.track-name {
+    font-size: 17px;
 
     font-weight: bold;
-
-    margin-bottom: 5px;
 }
 
 
-/* ИСПОЛНИТЕЛЬ */
+.track-artist {
+    margin-top: 5px;
 
-.artist {
-    color: #a7a7a7;
+    color: #999;
 
-    font-size: 15px;
+    font-size: 14px;
+}
+
+
+.track-arrow {
+    color: #777;
+
+    font-size: 22px;
+}
+
+
+/* =========================
+   ПЛЕЕР
+========================= */
+
+.player {
+    display: none;
+
+    background: rgba(20,20,20,0.88);
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.6);
+}
+
+
+/* Кнопка назад */
+
+.back {
+    background: none;
+
+    border: none;
+
+    color: #aaa;
+
+    font-size: 16px;
+
+    cursor: pointer;
 
     margin-bottom: 20px;
 }
 
+.back:hover {
+    color: white;
+}
 
-/* ПРОГРЕСС */
+
+/* =========================
+   ОБЛОЖКА
+========================= */
+
+.cover {
+    display: block;
+
+    width: 280px;
+    height: 280px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    margin: auto;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.7);
+}
+
+
+/* =========================
+   ИНФОРМАЦИЯ
+========================= */
+
+.song-info {
+    text-align: center;
+
+    margin-top: 22px;
+}
+
+
+.song-title {
+    font-size: 28px;
+
+    font-weight: bold;
+}
+
+
+.artist {
+    margin-top: 7px;
+
+    color: #999;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   ПРОГРЕСС
+========================= */
 
 .progress-container {
-    width: 100%;
+    margin-top: 28px;
 }
+
 
 .progress {
     width: 100%;
 
-    height: 5px;
-
-    appearance: none;
-
-    background: #535353;
-
-    border-radius: 10px;
-
     cursor: pointer;
 }
 
-.progress::-webkit-slider-thumb {
-    appearance: none;
-
-    width: 13px;
-    height: 13px;
-
-    border-radius: 50%;
-
-    background: white;
-
-    cursor: pointer;
-}
-
-
-/* ВРЕМЯ */
 
 .time {
     display: flex;
 
     justify-content: space-between;
 
-    color: #a7a7a7;
+    color: #999;
 
-    font-size: 11px;
-
-    margin-top: 6px;
+    font-size: 12px;
 }
 
 
-/* КНОПКИ */
+/* =========================
+   КНОПКИ
+========================= */
 
 .controls {
     display: flex;
 
-    align-items: center;
-
     justify-content: center;
 
-    gap: 28px;
+    align-items: center;
+
+    gap: 25px;
 
     margin-top: 20px;
 }
 
 
 .control {
-    border: none;
-
     background: none;
+
+    border: none;
 
     color: white;
 
-    cursor: pointer;
-
     font-size: 25px;
 
-    transition: 0.2s;
+    cursor: pointer;
 }
 
 
 .control:hover {
-    transform: scale(1.12);
+    color: #1ed760;
 }
 
 
-/* PLAY */
-
 .play {
     width: 58px;
-
     height: 58px;
 
     border-radius: 50%;
@@ -200,7 +320,7 @@ body::before {
 
     color: black;
 
-    font-size: 25px;
+    font-size: 22px;
 
     cursor: pointer;
 
@@ -209,192 +329,240 @@ body::before {
 
 
 .play:hover {
-    transform: scale(1.07);
+    transform: scale(1.08);
 }
 
 
-/* ГРОМКОСТЬ */
+/* =========================
+   ГРОМКОСТЬ
+========================= */
 
 .volume {
     display: flex;
 
     align-items: center;
 
+    justify-content: center;
+
     gap: 10px;
 
-    margin-top: 20px;
+    margin-top: 22px;
 }
 
 
 .volume input {
-    flex: 1;
+    width: 130px;
 }
 
 
-.volume-slider {
-    appearance: none;
+/* =========================
+   ТЕЛЕФОН
+========================= */
 
-    height: 4px;
+@media (max-width: 600px) {
 
-    background: #535353;
+    .container {
+        width: 94%;
 
-    border-radius: 10px;
-}
+        padding-top: 20px;
+    }
 
+    .header h1 {
+        font-size: 25px;
+    }
 
-.volume-slider::-webkit-slider-thumb {
-    appearance: none;
+    .cover {
+        width: 230px;
+        height: 230px;
+    }
 
-    width: 12px;
+    .song-title {
+        font-size: 23px;
+    }
 
-    height: 12px;
+    .track {
+        padding: 10px 7px;
+    }
 
-    border-radius: 50%;
+    .track img {
+        width: 50px;
+        height: 50px;
+    }
 
-    background: white;
-
-    cursor: pointer;
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<div class="player">
+<div class="container">
 
 
-    <!-- ОБЛОЖКА -->
+    <!-- =========================
+         ГЛАВНЫЙ ЭКРАН
+    ========================== -->
 
-    <img
-        class="cover"
-        id="cover"
-        src="poater1.jpg"
-        alt="Обложка"
-    >
+    <div id="home">
 
 
-    <!-- НАЗВАНИЕ -->
+        <div class="header">
 
-    <div
-        class="song-name"
-        id="songName"
-    >
-        Песня 1
-    </div>
+            <h1>YOU ARE MY WORLD ❤️</h1>
 
-
-    <!-- ИСПОЛНИТЕЛЬ -->
-
-    <div
-        class="artist"
-        id="artist"
-    >
-        Исполнитель
-    </div>
-
-
-    <!-- ПРОГРЕСС -->
-
-    <div class="progress-container">
-
-        <input
-            type="range"
-            class="progress"
-            id="progress"
-
-            value="0"
-            min="0"
-            max="100"
-        >
-
-
-        <div class="time">
-
-            <span id="currentTime">
-                0:00
-            </span>
-
-            <span id="duration">
-                0:00
-            </span>
+            <p>My favorite songs</p>
 
         </div>
 
-    </div>
 
+        <div class="playlist" id="playlist">
 
-    <!-- КНОПКИ -->
+        </div>
 
-    <div class="controls">
-
-        <button
-            class="control"
-            id="prev"
-        >
-            ⏮
-        </button>
-
-
-        <button
-            class="play"
-            id="play"
-        >
-            ▶
-        </button>
-
-
-        <button
-            class="control"
-            id="next"
-        >
-            ⏭
-        </button>
 
     </div>
 
 
-    <!-- ГРОМКОСТЬ -->
 
-    <div class="volume">
+    <!-- =========================
+         ЭКРАН ПЛЕЕРА
+    ========================== -->
 
-        🔊
+    <div class="player" id="player">
 
-        <input
-            type="range"
-            class="volume-slider"
 
-            id="volume"
+        <button class="back" onclick="showPlaylist()">
 
-            min="0"
-            max="1"
-            step="0.01"
+            ← Назад
 
-            value="1"
+        </button>
+
+
+        <img
+            id="cover"
+            class="cover"
+            src="poater1.jpg"
         >
 
-    </div>
 
+        <div class="song-info">
+
+            <div
+                id="songTitle"
+                class="song-title"
+            >
+                Песня
+            </div>
+
+
+            <div
+                id="artist"
+                class="artist"
+            >
+                Исполнитель
+            </div>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <input
+                type="range"
+                id="progress"
+                class="progress"
+
+                min="0"
+                max="100"
+                value="0"
+            >
+
+
+            <div class="time">
+
+                <span id="currentTime">
+                    0:00
+                </span>
+
+                <span id="duration">
+                    0:00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+
+            <button
+                class="control"
+                onclick="previousSong()"
+            >
+                ⏮
+            </button>
+
+
+            <button
+                class="play"
+                id="playButton"
+                onclick="togglePlay()"
+            >
+                ▶
+            </button>
+
+
+            <button
+                class="control"
+                onclick="nextSong()"
+            >
+                ⏭
+            </button>
+
+
+        </div>
+
+
+        <div class="volume">
+
+            🔊
+
+            <input
+                type="range"
+                id="volume"
+
+                min="0"
+                max="1"
+                step="0.01"
+
+                value="1"
+            >
+
+        </div>
+
+
+    </div>
 
 </div>
 
 
-<!-- АУДИО -->
 
 <audio id="audio"></audio>
+
 
 
 <script>
 
 
-/* =========================
-   СПИСОК ПЕСЕН
-========================= */
+/* ==========================================
+   ТВОИ 13 ПЕСЕН
+========================================== */
 
 const songs = [
+
 
     {
         name: "Yesterday",
@@ -403,12 +571,14 @@ const songs = [
         cover: "poater1.jpg"
     },
 
+
     {
         name: "Only You",
         artist: "My World",
         file: "song2.mp3",
         cover: "poater2.jpg"
     },
+
 
     {
         name: "Until Forever",
@@ -417,12 +587,14 @@ const songs = [
         cover: "poater3.jpg"
     },
 
+
     {
         name: "Always",
         artist: "My World",
         file: "song4.mp3",
         cover: "poater4.jpg"
     },
+
 
     {
         name: "Remember",
@@ -431,12 +603,14 @@ const songs = [
         cover: "poater5.jpg"
     },
 
+
     {
         name: "Everything",
         artist: "My World",
         file: "song6.mp3",
         cover: "poater6.jpg"
     },
+
 
     {
         name: "My Love",
@@ -445,12 +619,14 @@ const songs = [
         cover: "poater7.jpg"
     },
 
+
     {
         name: "You",
         artist: "My World",
         file: "song8.mp3",
         cover: "poater8.jpg"
     },
+
 
     {
         name: "With You",
@@ -459,12 +635,14 @@ const songs = [
         cover: "poater9.jpg"
     },
 
+
     {
         name: "One Heart",
         artist: "My World",
         file: "song10.mp3",
         cover: "poater10.jpg"
     },
+
 
     {
         name: "Romance",
@@ -473,12 +651,14 @@ const songs = [
         cover: "poater11.jpg"
     },
 
+
     {
         name: "Love",
         artist: "My World",
         file: "song12.mp3",
         cover: "poater12.jpg"
     },
+
 
     {
         name: "Dream",
@@ -490,50 +670,135 @@ const songs = [
 ];
 
 
+/* ==========================================
+   ПЕРЕМЕННЫЕ
+========================================== */
+
 let currentSong = 0;
 
 
 const audio =
     document.getElementById("audio");
 
-const playButton =
-    document.getElementById("play");
 
-const progress =
-    document.getElementById("progress");
+const home =
+    document.getElementById("home");
 
-const volume =
-    document.getElementById("volume");
 
-const currentTime =
-    document.getElementById("currentTime");
+const player =
+    document.getElementById("player");
 
-const duration =
-    document.getElementById("duration");
+
+const playlist =
+    document.getElementById("playlist");
+
 
 const cover =
     document.getElementById("cover");
 
-const songName =
-    document.getElementById("songName");
+
+const songTitle =
+    document.getElementById("songTitle");
+
 
 const artist =
     document.getElementById("artist");
 
-const prevButton =
-    document.getElementById("prev");
 
-const nextButton =
-    document.getElementById("next");
+const playButton =
+    document.getElementById("playButton");
 
 
-/* =========================
-   ЗАГРУЗКА ПЕСНИ
-========================= */
+const progress =
+    document.getElementById("progress");
 
-function loadSong(index) {
+
+const currentTime =
+    document.getElementById("currentTime");
+
+
+const duration =
+    document.getElementById("duration");
+
+
+const volume =
+    document.getElementById("volume");
+
+
+
+/* ==========================================
+   СОЗДАЁМ СПИСОК
+========================================== */
+
+function createPlaylist() {
+
+
+    playlist.innerHTML = "";
+
+
+    songs.forEach(function(song, index) {
+
+
+        const track =
+            document.createElement("div");
+
+
+        track.className = "track";
+
+
+        track.innerHTML = `
+
+            <div class="track-number">
+                ${index + 1}
+            </div>
+
+            <img
+                src="${song.cover}"
+            >
+
+            <div class="track-info">
+
+                <div class="track-name">
+                    ${song.name}
+                </div>
+
+                <div class="track-artist">
+                    ${song.artist}
+                </div>
+
+            </div>
+
+            <div class="track-arrow">
+                ›
+            </div>
+
+        `;
+
+
+        track.onclick = function() {
+
+            openPlayer(index);
+
+        };
+
+
+        playlist.appendChild(track);
+
+    });
+
+}
+
+
+
+/* ==========================================
+   ОТКРЫТЬ ПЛЕЕР
+========================================== */
+
+function openPlayer(index) {
+
 
     currentSong = index;
+
 
     const song =
         songs[currentSong];
@@ -547,7 +812,7 @@ function loadSong(index) {
         song.cover;
 
 
-    songName.textContent =
+    songTitle.textContent =
         song.name;
 
 
@@ -557,144 +822,165 @@ function loadSong(index) {
 
     progress.value = 0;
 
+
     currentTime.textContent =
         "0:00";
+
 
     duration.textContent =
         "0:00";
 
+
+    home.style.display =
+        "none";
+
+
+    player.style.display =
+        "block";
+
+
+    audio.play();
+
+
+    playButton.textContent =
+        "❚❚";
+
 }
 
 
-/* =========================
+
+/* ==========================================
+   НАЗАД К СПИСКУ
+========================================== */
+
+function showPlaylist() {
+
+
+    audio.pause();
+
+
+    player.style.display =
+        "none";
+
+
+    home.style.display =
+        "block";
+
+
+    playButton.textContent =
+        "▶";
+
+}
+
+
+
+/* ==========================================
    PLAY / PAUSE
-========================= */
+========================================== */
 
-playButton.addEventListener(
-    "click",
-    () => {
+function togglePlay() {
 
-        if (audio.paused) {
 
-            audio.play();
+    if (audio.paused) {
 
-            playButton.textContent =
-                "⏸";
 
-        } else {
+        audio.play();
 
-            audio.pause();
 
-            playButton.textContent =
-                "▶";
+        playButton.textContent =
+            "❚❚";
 
-        }
+
+    } else {
+
+
+        audio.pause();
+
+
+        playButton.textContent =
+            "▶";
 
     }
-);
+
+}
 
 
-/* =========================
+
+/* ==========================================
    СЛЕДУЮЩАЯ ПЕСНЯ
-========================= */
+========================================== */
 
-nextButton.addEventListener(
-    "click",
-    () => {
-
-        currentSong++;
+function nextSong() {
 
 
-        if (
-            currentSong >=
-            songs.length
-        ) {
-
-            currentSong = 0;
-
-        }
+    currentSong++;
 
 
-        loadSong(currentSong);
+    if (
+        currentSong >= songs.length
+    ) {
 
-
-        audio.play();
-
-
-        playButton.textContent =
-            "⏸";
+        currentSong = 0;
 
     }
-);
 
 
-/* =========================
+    openPlayer(currentSong);
+
+}
+
+
+
+/* ==========================================
    ПРЕДЫДУЩАЯ ПЕСНЯ
-========================= */
+========================================== */
 
-prevButton.addEventListener(
-    "click",
-    () => {
-
-        currentSong--;
+function previousSong() {
 
 
-        if (currentSong < 0) {
-
-            currentSong =
-                songs.length - 1;
-
-        }
+    currentSong--;
 
 
-        loadSong(currentSong);
+    if (currentSong < 0) {
 
-
-        audio.play();
-
-
-        playButton.textContent =
-            "⏸";
+        currentSong =
+            songs.length - 1;
 
     }
-);
 
 
-/* =========================
+    openPlayer(currentSong);
+
+}
+
+
+
+/* ==========================================
    ПРОГРЕСС
-========================= */
+========================================== */
 
 audio.addEventListener(
     "timeupdate",
-    () => {
-
-        if (audio.duration) {
-
-            progress.value =
-                (
-                    audio.currentTime /
-                    audio.duration
-                ) * 100;
+    function() {
 
 
-            currentTime.textContent =
-                formatTime(
-                    audio.currentTime
-                );
-
+        if (!audio.duration) {
+            return;
         }
 
-    }
-);
+
+        progress.value =
+            (
+                audio.currentTime /
+                audio.duration
+            ) * 100;
 
 
-/* =========================
-   ДЛИТЕЛЬНОСТЬ
-========================= */
+        currentTime.textContent =
+            formatTime(
+                audio.currentTime
+            );
 
-audio.addEventListener(
-    "loadedmetadata",
-    () => {
 
         duration.textContent =
             formatTime(
@@ -705,79 +991,33 @@ audio.addEventListener(
 );
 
 
-/* =========================
-   ПЕРЕМАТЫВАНИЕ
-========================= */
 
 progress.addEventListener(
     "input",
-    () => {
-
-        if (audio.duration) {
-
-            audio.currentTime =
-                (
-                    progress.value /
-                    100
-                ) *
-                audio.duration;
-
-        }
-
-    }
-);
+    function() {
 
 
-/* =========================
-   ГРОМКОСТЬ
-========================= */
-
-volume.addEventListener(
-    "input",
-    () => {
-
-        audio.volume =
-            volume.value;
-
-    }
-);
-
-
-/* =========================
-   АВТОПЕРЕКЛЮЧЕНИЕ
-========================= */
-
-audio.addEventListener(
-    "ended",
-    () => {
-
-        currentSong++;
-
-
-        if (
-            currentSong >=
-            songs.length
-        ) {
-
-            currentSong = 0;
-
+        if (!audio.duration) {
+            return;
         }
 
 
-        loadSong(currentSong);
-
-
-        audio.play();
+        audio.currentTime =
+            (
+                progress.value / 100
+            ) * audio.duration;
 
     }
 );
 
 
-/* =========================
-   ФОРМАТ ВРЕМЕНИ
-========================= */
+
+/* ==========================================
+   ВРЕМЯ
+========================================== */
 
 function formatTime(seconds) {
+
 
     if (isNaN(seconds)) {
 
@@ -811,14 +1051,46 @@ function formatTime(seconds) {
 }
 
 
-/* =========================
-   ПЕРВАЯ ПЕСНЯ
-========================= */
 
-loadSong(0);
+/* ==========================================
+   ГРОМКОСТЬ
+========================================== */
+
+volume.addEventListener(
+    "input",
+    function() {
+
+
+        audio.volume =
+            volume.value;
+
+    }
+);
+
+
+
+/* ==========================================
+   ПЕСНЯ ЗАКОНЧИЛАСЬ
+========================================== */
+
+audio.addEventListener(
+    "ended",
+    function() {
+
+        nextSong();
+
+    }
+);
+
+
+
+/* ==========================================
+   ЗАПУСК
+========================================== */
+
+createPlaylist();
 
 </script>
-
 
 </body>
 </html>
